@@ -1,7 +1,6 @@
 import VerticalLayout from './VerticalLayout.js'
 import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
-
 import Actions from './Actions.js'
 
 const row = (bill) => {
@@ -19,9 +18,9 @@ const row = (bill) => {
     `)
   }
 
-const rows = (data) => {
-  return (data && data.length) ? data.map(bill => row(bill)).join("") : ""
-}
+const rows = (data) => (data && data.length) ? data.map(bill => row(bill)).join("") : "";
+
+const sortByDate = (data) => [...data].sort((a, b) => new Date(b.date) - new Date(a.date));
 
 export default ({ data: bills, loading, error }) => {
   
@@ -47,7 +46,7 @@ export default ({ data: bills, loading, error }) => {
   } else if (error) {
     return ErrorPage(error)
   }
-  
+
   return (`
     <div class='layout'>
       ${VerticalLayout(120)}
@@ -69,7 +68,7 @@ export default ({ data: bills, loading, error }) => {
               </tr>
           </thead>
           <tbody data-testid="tbody">
-            ${rows(bills)}
+            ${rows(sortByDate(bills))}
           </tbody>
           </table>
         </div>
